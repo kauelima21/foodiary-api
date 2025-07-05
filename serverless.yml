@@ -1,0 +1,26 @@
+org: kauelima21
+service: foodiary-api
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: sa-east-1
+  stage: dev
+  architecture: arm64
+  memorySize: 128
+  timeout: 6
+
+package:
+  individually: true
+
+build:
+  esbuild:
+    configFile: ./esbuild.config.mjs
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
