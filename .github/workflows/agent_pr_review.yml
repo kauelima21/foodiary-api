@@ -1,0 +1,45 @@
+name: Vision PR review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+
+      - name: Get PR Diff
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pr_number=${{ github.event.pull_request.number }}
+          repo="${{ github.repository }}"
+
+          echo "🔍 Baixando diff do PR..."
+          diff_url=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/$repo/pulls/$pr_number" | jq -r '.diff_url')
+
+          curl -s -H "Authorization: token $GITHUB_TOKEN" "$diff_url" > pr_diff.txt
+
+      - name: Send diff to Code Review Agent
+        env:
+          REVIEW_AGENT_URL: ${{ secrets.REVIEW_AGENT_URL }}
+          REVIEW_AGENT_KEY: ${{ secrets.REVIEW_AGENT_KEY }}
+        run: |
+          pr_number=${{ github.event.pull_request.number }}
+          repo="${{ github.repository }}"
+          diff_content=$(cat pr_diff.txt | base64 | tr -d '\n')
+  
+          echo "📤 Enviando diff para o Agent de Revisão..."
+          curl -s -X POST "$REVIEW_AGENT_URL" \
+            -H "Content-Type: application/json" \
+            -H "x-api-key: $REVIEW_AGENT_KEY" \
+            -d "{
+              \"repository\": \"$repo\",
+              \"pull_number\": \"$pr_number\",
+              \"diff_base64\": \"$diff_content\"
+            }"
