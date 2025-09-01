@@ -10,13 +10,6 @@ provider:
   memorySize: 128
   timeout: 6
 
-package:
-  individually: true
-
-build:
-  esbuild:
-    configFile: ./esbuild.config.mjs
-
 functions:
   hello:
     handler: handler.hello
