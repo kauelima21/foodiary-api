@@ -18,12 +18,16 @@ jobs:
         run: |
           pr_number=${{ github.event.pull_request.number }}
           repo="${{ github.repository }}"
-
+      
           echo "🔍 Baixando diff do PR..."
-          diff_url=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            "https://api.github.com/repos/$repo/pulls/$pr_number" | jq -r '.diff_url')
-
-          curl -s -H "Authorization: token $GITHUB_TOKEN" "$diff_url" > pr_diff.txt
+          curl -s \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3.diff" \
+            "https://api.github.com/repos/$repo/pulls/$pr_number" \
+            > pr_diff.txt
+      
+          echo "✅ Diff salvo em pr_diff.txt"
+          head -20 pr_diff.txt
 
       - name: Send diff to Code Review Agent
         env:
