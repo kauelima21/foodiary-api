@@ -1,8 +1,10 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { ZodError } from 'zod';
+
 import { Controller } from '@application/contracts/Controller';
 import { ErrorCode } from '@application/errors/ErrorCode';
 import { HttpError } from '@application/errors/http/HttpError';
+
 import { lambdaBodyParser } from '../utils/lambdaBodyParser';
 import { lambdaErrorResponse } from '../utils/lambdaErrorResponse';
 
@@ -17,6 +19,7 @@ export function lambdaHttpAdapter(controller: Controller) {
         body,
         params,
         queryParams,
+        isBase64Encoded: false,
       });
 
       return {
