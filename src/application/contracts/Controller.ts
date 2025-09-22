@@ -19,17 +19,17 @@ export abstract class Controller<TBody = undefined> {
 }
 
 export namespace Controller {
-  export interface HttpRequest<
+  export type HttpRequest<
     TBody = Record<string, unknown>,
     TParams = Record<string, unknown>,
     TQueryParams = Record<string, unknown>
-  > {
+  > = {
     body: TBody;
     params: TParams;
     queryParams: TQueryParams;
   }
 
-  export interface HttpResponse<TBody = undefined> {
+  export type HttpResponse<TBody = undefined> = {
     statusCode: number;
     body?: TBody;
   }

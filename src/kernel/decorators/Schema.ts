@@ -1,7 +1,5 @@
 import { z } from 'zod';
 
-import 'reflect-metadata'
-
 const SCHEMA_METADATA_KEY = 'custom:schema';
 
 export function Schema(schema: z.ZodSchema): ClassDecorator {
