@@ -12,20 +12,20 @@ export class SignUpController extends Controller<unknown> {
   }
 
   protected override async handle(
-    { body }: Controller.HttpRequest<SignUpBody>
+    { body }: Controller.HttpRequest<SignUpBody>,
   ): Promise<Controller.HttpResponse<SignUpController.Response>> {
     const { account } = body;
 
     const {
       refreshToken,
-      accessToken
+      accessToken,
     } = await this.signUpUseCase.execute(account);
 
     return {
       statusCode: 201,
       body: {
         refreshToken,
-        accessToken
+        accessToken,
       },
     };
   }

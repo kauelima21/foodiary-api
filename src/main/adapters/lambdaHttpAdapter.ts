@@ -32,11 +32,11 @@ export function lambdaHttpAdapter(controller: Controller<unknown>) {
             field: issue.path.join('.'),
             error: issue.message,
           })),
-        })
+        });
       }
 
       if (error instanceof HttpError) {
-        return lambdaErrorResponse(error)
+        return lambdaErrorResponse(error);
       }
 
       console.error(error);
@@ -45,7 +45,7 @@ export function lambdaHttpAdapter(controller: Controller<unknown>) {
         statusCode: 500,
         code: ErrorCode.INTERNAL_SERVER_ERROR,
         message: 'Internal Server Error',
-      })
+      });
     }
-  }
+  };
 }

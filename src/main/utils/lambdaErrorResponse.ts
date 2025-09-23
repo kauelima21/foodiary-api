@@ -12,8 +12,8 @@ export function lambdaErrorResponse({ statusCode, code, message }: LambdaErrorRe
     body: JSON.stringify({
       error: {
         code,
-        message
-      }
-    })
-  }
+        message,
+      },
+    }),
+  };
 }
