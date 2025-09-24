@@ -20,3 +20,8 @@ preSignUpTrigger:
         trigger: PreSignUp
         existing: true
         forceDeploy: true
+
+# triggered by UserPool PreTokenGeneration trigger
+# config file -> UserPool.yml
+preTokenGenerationTrigger:
+  handler: src/main/functions/auth/preTokenGenerationTrigger.handler

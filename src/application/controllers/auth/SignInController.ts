@@ -6,13 +6,13 @@ import { Injectable } from '@kernel/di/Injectable';
 
 @Injectable()
 @Schema(signInSchema)
-export class SignInController extends Controller<unknown> {
+export class SignInController extends Controller<'public', SignInController.Response> {
   constructor(private readonly signInUseCase: SignInUseCase) {
     super();
   }
 
   protected override async handle(
-    { body }: Controller.HttpRequest<SignInBody>,
+    { body }: Controller.HttpRequest<'public', SignInBody>,
   ): Promise<Controller.HttpResponse<SignInController.Response>> {
     const { email, password } = body;
 

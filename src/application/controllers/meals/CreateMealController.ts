@@ -2,12 +2,14 @@ import { Controller } from '@application/contracts/Controller';
 import { Injectable } from '@kernel/di/Injectable';
 
 @Injectable()
-export class CreateMealController extends Controller<unknown> {
-  protected override async handle(): Promise<Controller.HttpResponse<CreateMealController.Response>> {
+export class CreateMealController extends Controller<'private', CreateMealController.Response> {
+  protected override async handle({
+    accountId,
+  }: Controller.HttpRequest<'private'>): Promise<Controller.HttpResponse<CreateMealController.Response>> {
     return {
       statusCode: 201,
       body: {
-        mealId: 'XXX',
+        mealId: accountId,
       },
     };
   }

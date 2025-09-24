@@ -7,7 +7,7 @@ export class Account {
 
   readonly createdAt: Date;
 
-  externalId: string;
+  externalId: string | undefined;
 
   constructor ({ email, externalId, id, createdAt }: Account.Attributes) {
     this.id = id ?? KSUID.randomSync().string;
@@ -20,7 +20,7 @@ export class Account {
 export namespace Account {
   export type Attributes = {
     email: string;
-    externalId: string;
+    externalId?: string;
     id?: string;
     createdAt?: Date;
   }
