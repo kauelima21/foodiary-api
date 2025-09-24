@@ -5,6 +5,7 @@ import { ErrorCode } from '@application/errors/ErrorCode';
 import { HttpError } from '@application/errors/http/HttpError';
 import { lambdaBodyParser } from '../utils/lambdaBodyParser';
 import { lambdaErrorResponse } from '../utils/lambdaErrorResponse';
+import { ApplicationError } from '@application/errors/application/ApplicationError';
 
 export function lambdaHttpAdapter(controller: Controller<unknown>) {
   return async (event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> => {
@@ -37,6 +38,14 @@ export function lambdaHttpAdapter(controller: Controller<unknown>) {
 
       if (error instanceof HttpError) {
         return lambdaErrorResponse(error);
+      }
+
+      if (error instanceof ApplicationError) {
+        return lambdaErrorResponse({
+          statusCode: error.statusCode ?? 400,
+          code: error.code,
+          message: error.message,
+        });
       }
 
       console.error(error);

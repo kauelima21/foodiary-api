@@ -9,11 +9,11 @@ export class Account {
 
   externalId: string;
 
-  constructor ({ email, externalId }: Account.Attributes) {
-    this.id = KSUID.randomSync().string;
+  constructor ({ email, externalId, id, createdAt }: Account.Attributes) {
+    this.id = id ?? KSUID.randomSync().string;
     this.email = email;
-    this.createdAt = new Date();
     this.externalId = externalId;
+    this.createdAt = createdAt ?? new Date();
   }
 }
 
@@ -21,5 +21,7 @@ export namespace Account {
   export type Attributes = {
     email: string;
     externalId: string;
+    id?: string;
+    createdAt?: Date;
   }
 }
