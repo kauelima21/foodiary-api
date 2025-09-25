@@ -1,4 +1,4 @@
-import esbuildPluginTsc from "esbuild-plugin-tsc";
+import esbuildPluginTsc from 'esbuild-plugin-tsc';
 
 export default () => ({
   bundle: true,
